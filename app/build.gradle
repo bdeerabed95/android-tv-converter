@@ -1,0 +1,25 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "28.0.3"
+    
+    defaultConfig {
+        applicationId "com.example.tvconverter"
+        minSdkVersion 19
+        targetSdkVersion 19
+        versionCode 1
+        versionName "2.0.0"
+    }
+    
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.android.support:appcompat-v7:19.1.0'
+    implementation 'com.android.support:leanback-v17:19.1.0'
+}

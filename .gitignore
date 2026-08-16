@@ -1,0 +1,48 @@
+# Termux system files
+.bash_history
+.cache/
+.config/
+.local/
+.ssh/
+.termux/
+.wget-hsts
+storage/
+
+# Android build files
+*.apk
+*.dex
+*.jar
+*.class
+build/
+app/build/
+*.iml
+.gradle/
+local.properties
+*.keystore
+*.jks
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+env/
+venv/
+dist/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Workspace
+workspace/
+output/
+*.log
+*.tmp
+
+# OS
+.DS_Store
+Thumbs.db

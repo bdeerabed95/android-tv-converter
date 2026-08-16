@@ -1,4 +1,4 @@
-name: 🏗️ Build Android TV APK
+name: Build Android TV APK
 
 on:
   push:
@@ -10,37 +10,38 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: ☕ Setup Java
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Java
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
         java-version: '8'
-    
-    - name: 📱 Setup Android SDK
+
+    - name: Setup Android SDK
       run: |
-        sudo apt-get update
-        sudo apt-get install -y wget unzip
-        wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
-        unzip commandlinetools-linux-9477386_latest.zip
-        mkdir -p android-sdk/cmdline-tools
-        mv tools android-sdk/cmdline-tools/latest
-        export ANDROID_HOME=$PWD/android-sdk
-        export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
-        yes | sdkmanager --licenses > /dev/null
-        sdkmanager "platforms;android-19" "build-tools;28.0.3"
-        echo "ANDROID_HOME=$PWD/android-sdk" >> $GITHUB_ENV
-        echo "$PWD/android-sdk/cmdline-tools/latest/bin" >> $GITHUB_PATH
-    
-    - name: 🔨 Build APK
+        mkdir -p $HOME/android-sdk/cmdline-tools
+        cd $HOME
+        
+        wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
+        unzip -q commandlinetools-linux-9477386_latest.zip
+        mv cmdline-tools $HOME/android-sdk/cmdline-tools/latest
+        
+        echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
+        echo "$HOME/android-sdk/cmdline-tools/latest/bin" >> $GITHUB_PATH
+        
+        yes | $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null 2>&1 || true
+        $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager "platforms;android-19" "build-tools;28.0.3"
+
+    - name: Build APK
       run: |
         chmod +x gradlew
         ./gradlew assembleDebug
-    
-    - name: 📤 Upload APK
+
+    - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: app-debug
